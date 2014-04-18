@@ -67,7 +67,7 @@ namespace Algorithms
 
             for (int i = 0; i < sortedArray.Length; i++)
             {
-                int max = ExtractMax(ref copy, endIndex);
+                int max = ExtractMax(copy, endIndex);
                 sortedArray[i] = max;
                 endIndex--;
             }
@@ -75,7 +75,30 @@ namespace Algorithms
             return sortedArray;
         }
 
-        private static int ExtractMax(ref int[] array, int endIndex)
+        /// <summary>
+        /// Same as heapsort except the input array will be turned into a heap
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static int[] InplaceHeapSort(int[] array)
+        {
+            int[] sortedArray = new int[array.Length];
+
+            BuildMaxHeap(array);
+
+            int endIndex = sortedArray.Length;
+
+            for (int i = 0; i < sortedArray.Length; i++)
+            {
+                int max = ExtractMax(array, endIndex);
+                sortedArray[i] = max;
+                endIndex--;
+            }
+
+            return sortedArray;
+        }
+
+        private static int ExtractMax(int[] array, int endIndex)
         {
             int max = array[0];
             array[0] = array[endIndex - 1];

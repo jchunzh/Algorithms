@@ -29,6 +29,8 @@ namespace SortPerformanceProfiler
 
                 int[] randomCopy = new int[random.Length];
                 random.CopyTo(randomCopy, 0);
+                int[] randomHeapCopy = new int[random.Length];
+                random.CopyTo(randomHeapCopy, 0);
 
                 int[] sorted = random.OrderBy(s => s).ToArray();
                 TimeSpan orderByTime = MeasureSort(s => s.OrderBy(t => t).ToArray(), random, sorted);
@@ -38,6 +40,7 @@ namespace SortPerformanceProfiler
                                                     return s;
                                                 }, randomCopy, sorted);
                 TimeSpan heapTime = MeasureSort(Heap.HeapSort, random, sorted.Reverse().ToArray());
+                TimeSpan inplaceHeapTime = MeasureSort(Heap.InplaceHeapSort, randomHeapCopy, sorted.Reverse().ToArray());
                 TimeSpan bstTime = MeasureSort(s =>
                 {
                     BinarySearchTree<int> tree = new BinarySearchTree<int>();
@@ -61,6 +64,7 @@ namespace SortPerformanceProfiler
 
                 Console.WriteLine("----- {0} -----", count);
                 Console.WriteLine("Heap:               {0}", heapTime.TotalSeconds);
+                Console.WriteLine("Inplace Heap:       {0}", inplaceHeapTime.TotalSeconds);
                 Console.WriteLine("Binary search tree: {0}", bstTime.TotalSeconds);
                 Console.WriteLine("AVL tree:           {0}", avlTime.TotalSeconds);
                 Console.WriteLine("Sort:               {0}", sortTime.TotalSeconds);
